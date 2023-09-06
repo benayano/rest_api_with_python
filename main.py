@@ -2,7 +2,13 @@ import requests
 import csv
 
 
-def download():
+def create_csv_from_json():
+    jsondata = load_json_items()
+    data_file = open('jsonoutput.csv', 'w', newline='')
+    convert_json_to_csv(jsondata=jsondata, data_file=data_file)
+
+
+def load_json_items():
     list_id = requests.get(" https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
     jsondata = []
     for id in range(100):
@@ -14,9 +20,7 @@ def download():
     #     response = requests.get(f"https://hacker-news.firebaseio.com/v0/item/{id}.json?print=pretty")
     #     if response.status_code == 200:
     #         jsondata.append(response.json())
-
-    data_file = open('jsonoutput.csv', 'w', newline='')
-    convert_json_to_csv(jsondata=jsondata, data_file=data_file)
+    return jsondata
 
 
 def convert_json_to_csv(jsondata, data_file):
@@ -32,4 +36,4 @@ def convert_json_to_csv(jsondata, data_file):
 
 
 if __name__ == '__main__':
-    download()
+    create_csv_from_json()
